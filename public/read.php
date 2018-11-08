@@ -1,3 +1,21 @@
+<?php
+
+/**
+ *
+ *
+ */
+
+if (isset($_POST['submit'])) {
+  try {
+    require "../config.php";
+    require "../common.php";
+
+    $connection = new PDO($dsn, $username, $password, $options);
+  }
+}
+ ?>
+
+
 <?php include "templates/header.php"; ?>
 
 <h2> Find user based on location</h2>
