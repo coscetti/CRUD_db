@@ -1,5 +1,18 @@
 <?php
 
+session_start();
+
+if (empty($_SESSION['csrf'])) {
+  if (function_exists('random_bytes')) {
+    $_SESSION['csrf'] = bin2hex(rabdom_bytes(32));
+  } else if (function_exists('mycrypt_create_iv')) {
+      $_SESSION['csrf'] = bin2hex(mycrypt_create_iv(32, MYCRYPT_DEV_URANDOM));
+  } else {
+    $_SESSION['csrf'] = bin2hex(openssl_random_pseudo_bytes(32));
+  }
+}
+
+
 /**
  * Escape HTML for output
  *
