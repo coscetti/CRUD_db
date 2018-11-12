@@ -72,6 +72,7 @@ if (isset($_POST['submit'])) {
 <h2> Find user based on location</h2>
 
 <form method="post">
+  <input name="csrf" type="hidden" value="<?php echo escape($_SESSION['csrf']); ?>">
   <label for="location">Location</label>
   <input type="text" id="location" name="location">
   <input type="submit" name="submit" value="View Results">
