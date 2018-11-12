@@ -4,9 +4,10 @@
  * List all users with a link to edit
  */
 
+require "../config.php";
+require "../common.php";
+
 try {
-  require "../config.php";
-  require "../common.php";
 
   $connection = new PDO($dsn, $username, $password, $options);
 
@@ -21,7 +22,7 @@ try {
 }
 ?>
 <?php require "templates/header.php"; ?>
-        
+
 <h2>Update users</h2>
 
 <table>

@@ -6,9 +6,13 @@
  */
 require "../config.php";
 require "../common.php";
+
 if (isset($_POST['submit'])) {
+  if (!hash_equals($_SESSION['csrf'], $_POST['csrf'])) die();
+
   try {
     $connection = new PDO($dsn, $username, $password, $options);
+
     $user =[
       "id"        => $_POST['id'],
       "firstname" => $_POST['firstname'],
@@ -19,23 +23,23 @@ if (isset($_POST['submit'])) {
       "date"      => $_POST['date']
     ];
 
-    $sql = "UPDATE users 
-            SET id = :id, 
-              firstname = :firstname, 
-              lastname = :lastname, 
-              email = :email, 
-              age = :age, 
-              location = :location, 
-              date = :date 
+    $sql = "UPDATE users
+            SET id = :id,
+              firstname = :firstname,
+              lastname = :lastname,
+              email = :email,
+              age = :age,
+              location = :location,
+              date = :date
             WHERE id = :id";
-  
+
   $statement = $connection->prepare($sql);
   $statement->execute($user);
   } catch(PDOException $error) {
       echo $sql . "<br>" . $error->getMessage();
   }
 }
-  
+
 if (isset($_GET['id'])) {
   try {
     $connection = new PDO($dsn, $username, $password, $options);
@@ -44,7 +48,7 @@ if (isset($_GET['id'])) {
     $statement = $connection->prepare($sql);
     $statement->bindValue(':id', $id);
     $statement->execute();
-    
+
     $user = $statement->fetch(PDO::FETCH_ASSOC);
   } catch(PDOException $error) {
       echo $sql . "<br>" . $error->getMessage();
@@ -67,7 +71,7 @@ if (isset($_GET['id'])) {
     <?php foreach ($user as $key => $value) : ?>
       <label for="<?php echo $key; ?>"><?php echo ucfirst($key); ?></label>
 	    <input type="text" name="<?php echo $key; ?>" id="<?php echo $key; ?>" value="<?php echo escape($value); ?>" <?php echo ($key === 'id' ? 'readonly' : null); ?>>
-    <?php endforeach; ?> 
+    <?php endforeach; ?>
     <input type="submit" name="submit" value="Submit">
 </form>
 
